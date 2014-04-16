@@ -1,7 +1,8 @@
 # Bank Teller Project
 
+ 
 class Bank
-    attr_accessor :name, :balance
+    attr_accessor :name, :balance, :pin, :amount
     def initialize(add, login, draw, deposit, balance, transfer, pin, name, password, accounts, amount)
         @name = name
         @amount = amount
@@ -11,40 +12,49 @@ class Bank
         
     end
     
-end
 
 
-accounts = {:name => :pin, :balance => @balance}
+
+accounts = {}
 
 puts "What would you like to do?"
 puts "type 'add' to add a new account."
 puts "Type 'login' to login to your account."
 
-    
+   
 
 choice = gets.chomp.downcase
 case choice
 when 'add'
+
 puts "Enter your name."
 name = gets.chomp
 
+File.open('save.rb', 'w+') do |f|
+f.write "#{name}\n"
+@name = name
+end
 
 puts "enter pin number"
 pin = gets.chomp
 
 
-balance = 0
+balance = 10
 
 accounts[name.to_sym] = pin.to_i
 accounts[:balance] = balance.to_i
+
 puts accounts
 
 when 'login'
     
     puts "Your name"
     name = gets.chomp
-    if accounts[name].nil?
+    File.open('save.rb', 'r') do |f|
+    f.readlines[0]
+    if accounts[name] != @name
         puts "name not found"
+    
     else
         puts "Type 'draw' from an existing account."
         puts "Type 'deposit' to deposit to an existing account."
@@ -54,20 +64,31 @@ when 'login'
         option = gets.chomp.downcase
         case option
         when 'draw'
+            puts "Enter the amount."
+            amount = gets.chomp
+        def amount
             if @balance >= amount
-             @balance = @balance - amount
+                @balance -= amount
+                 puts "your balance is #{@balance}"
+             
+            else 
+            puts "you don't have honey."
             end
-            return accounts
-            puts @accounts
-        when 'deposit'
-             @balance = @balance + amount
-        when 'balance'
-            def get_balance(accounts)
+        end
+            def balance(accounts)
 
             return @balance
             puts @balance
-            end     
-        end
+            end 
+           puts balance
+        
+
+        when 'deposit'
+             @balance = @balance + amount
+        when 'balance'
+            
+        end    
+    end
     end
 
 end
@@ -77,7 +98,7 @@ end
 
 
 
-
+end
 
 
 
